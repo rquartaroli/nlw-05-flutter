@@ -5,6 +5,7 @@ import 'package:DevQuiz/home/home_state.dart';
 import 'package:DevQuiz/home/widgets/appbar/app_bar_widget.dart';
 import 'package:DevQuiz/home/widgets/level_button/level_button_widget.dart';
 import 'package:DevQuiz/home/widgets/quiz_card/quiz_card_widget.dart';
+import 'package:DevQuiz/shared/models/quiz_model.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,6 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final controller = HomeController();
+  List listQuizCards = [];
 
   @override
   void initState() {    
@@ -27,9 +29,15 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void handleChangeDificulty(List<QuizModel> lista) {
+    setState(() {
+      listQuizCards = lista;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (controller.state == HomeState.sucess) {
+    if (controller.state == HomeState.sucess) {            
       return Scaffold(
         appBar: AppBarWidget(user: controller.user!,),
         body: Padding(
@@ -44,15 +52,27 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   LevelButtonWidget(
                     label: "Fácil",
+                    onTap: () {                      
+                      handleChangeDificulty(controller.quizzes!.where((e) => e.level.toString() == "Level.facil").toList());                       
+                    },
                   ),
                   LevelButtonWidget(
                     label: "Médio",
+                    onTap: () {
+                      handleChangeDificulty(controller.quizzes!.where((e) => e.level.toString() == "Level.medio").toList());                      
+                    },
                   ),
                   LevelButtonWidget(
                     label: "Difícil",
+                    onTap: () {
+                      handleChangeDificulty(controller.quizzes!.where((e) => e.level.toString() == "Level.dificil").toList());                      
+                    },
                   ),
                   LevelButtonWidget(
                     label: "Perito",
+                    onTap: () {
+                      handleChangeDificulty(controller.quizzes!.where((e) => e.level.toString() == "Level.perito").toList());                      
+                    },
                   ),
                 ],
               ),
@@ -65,7 +85,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisSpacing: 16,
                   crossAxisCount: 2,
                   children: 
-                    controller.quizzes!.map((e) => 
+                    listQuizCards.map((e) => 
                     QuizCardWidget(
                       title: e.title, 
                       percent: e.questionAnswered/e.questions.length,

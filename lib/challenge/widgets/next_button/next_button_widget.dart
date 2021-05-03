@@ -7,6 +7,7 @@ class NextButtonWidget extends StatelessWidget {
   final Color backgroundColor;
   final Color fontColor;
   final Color borderColor;
+  final Color splashColor;
   final VoidCallback onTap;
 
   NextButtonWidget({
@@ -15,13 +16,15 @@ class NextButtonWidget extends StatelessWidget {
     required this.backgroundColor, 
     required this.fontColor, 
     required this.borderColor, 
-    required this.onTap,
+    required this.splashColor,
+    required this.onTap, 
   }) : super(key: key);
 
   NextButtonWidget.green({required String label, required VoidCallback onTap, })
     : this.backgroundColor = AppColors.darkGreen, 
       this.fontColor = AppColors.white,
       this.borderColor = AppColors.green,
+      this.splashColor = AppColors.seaGreen,
       this.onTap = onTap,
       this.label = label;
 
@@ -29,6 +32,7 @@ class NextButtonWidget extends StatelessWidget {
     : this.backgroundColor = AppColors.purple, 
       this.fontColor = AppColors.white,
       this.borderColor = AppColors.purple,
+      this.splashColor = AppColors.darkPurple,
       this.onTap = onTap,
       this.label = label;
 
@@ -36,6 +40,7 @@ class NextButtonWidget extends StatelessWidget {
     : this.backgroundColor = AppColors.white, 
       this.fontColor = AppColors.grey, 
       this.borderColor = AppColors.border,
+      this.splashColor = AppColors.darkWhite,
       this.onTap = onTap,
       this.label = label;
 
@@ -48,6 +53,7 @@ class NextButtonWidget extends StatelessWidget {
           backgroundColor: MaterialStateProperty.all(backgroundColor),
           shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
           side: MaterialStateProperty.all(BorderSide(color: borderColor)),
+          overlayColor: MaterialStateProperty.all(splashColor),
         ),
         onPressed: onTap, 
         child: Text(
